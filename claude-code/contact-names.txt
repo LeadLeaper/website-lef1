@@ -1,0 +1,59 @@
+# contact-1
+- Image: sarah-clark.png
+- Name: Sarah Clark
+- Title: Chief Product Officer
+- Company: RPA Robotics
+
+# contact-2
+- Image: james-walton.png
+- Name: James Walton
+- Title: VP, Operations
+- Company: Staples
+
+# contact-3
+- Image: maria-bonya.png
+- Name: Maria Bonya
+- Title: Sales Manager
+- Company: Skechers
+
+# contact-4
+- Image: tony-carlson.png
+- Name: Tony Carlson
+- Title: SVP, Technology
+- Company: Trellix
+
+# contact-5
+- Image: somona-wilson.png
+- Name: Simona Wilson
+- Title: Director, Marketing
+- Company: Lyft
+
+# contact-6
+- Image: kathryn-chen.png
+- Name: Kathryn Chen
+- Title: Chief Financial Officer
+- Company: RPA Robotics
+
+# contact-7
+- Image: jonathan-richards.png
+- Name: Jonathan Richards
+- Title: Vice President, Sales
+- Company: Dropbox
+
+# contact-8
+- Image: cara-johnson.png
+- Name: Cara Johnson
+- Title: Product Manager
+- Company: Stripe
+
+# contact-9
+- Image: jason-dao.png
+- Name: Jason Dao
+- Title: Chief Scientist
+- Company: Cisco
+
+# contact-10
+- Image: ravi-rasheed.png
+- Name: Ravi Rasheed
+- Title: CTO
+- Company: Talkdesk
