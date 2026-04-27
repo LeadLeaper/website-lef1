@@ -1,71 +1,103 @@
-# Session Status — 2026-04-26
+# Session Status — 2026-04-27
 
 ## Project
 - **Repo:** github.com/LeadLeaper/website-lef1 (public)
 - **Local:** C:\aagreg\Development\aaaaClaude\projects\website-lef1
 - **Branch:** master
 - **Git identity:** LeadLeaper / ghenson@leadleaper.com (repo-level config)
+- **Working directory for Claude Code:** `projects/website-lef1`
+
+---
 
 ## What Was Accomplished This Session
 
-### 1. Project & Repo Setup
-- Switched active project from `web-app` to `website-lef1`
-- Initialized local git repo, connected to GitHub remote, made initial commit (25 files)
-- Note: Claude Code session still boots in `web-app` directory — use absolute paths or start a new session pointed at `website-lef1`
+All work is in `claude-code/generate-svg.js` → run `node generate-svg.js` to regenerate the SVG.
 
-### 2. SVG Mockup — `claude-code/linkedin-email-finder-from-search-results.svg`
-Recreated the LinkedIn Email Finder screenshot (original: `claude-code/linkedin-email-finder-from-search-results.png`) as a **239 KB SVG** with:
-- **Left panel** — LinkedIn-style search results list (10 contacts)
-- **Right panel** — LeadLeaper sidebar (Business Development list)
-- Same contact order in both panels
-- All real individuals replaced with fake names/titles/companies
-- Real photos replaced with free stock headshots (base64-embedded, circular-cropped)
-- Locations replaced with random US cities (no "years in role" text)
+### Left Panel (underlying contact list)
 
-### 3. Contacts (in order)
-| # | Name | Title | Company | City | Photo file |
-|---|------|-------|---------|------|-----------|
-| 1 | Sarah Clark | Chief Product Officer | RPA Robotics | Seattle, Washington | sarah-clark.png |
-| 2 | James Walton | VP, Operations | Staples | Chicago, Illinois | james-walton.png |
-| 3 | Maria Bonya | Sales Manager | Skechers | Los Angeles, California | maria-bonya.png |
-| 4 | Tony Carlson | SVP, Technology | Trellix | Austin, Texas | tony-carlson.png |
-| 5 | Simona Wilson | Director, Marketing | Lyft | New York, New York | simona-wilson.png |
-| 6 | Kathryn Chen | Chief Financial Officer | RPA Robotics | San Francisco, California | kathryn-chen.png |
-| 7 | Jonathan Richards | Vice President, Sales | Dropbox | Boston, Massachusetts | jonathan-richards.png |
-| 8 | Cara Johnson | Product Manager | Stripe | Denver, Colorado | cara-johnson.png |
-| 9 | Jason Dao | Chief Scientist | Cisco | Atlanta, Georgia | jason-dao.png |
-| 10 | Ravi Rasheed | CTO | Talkdesk | Miami, Florida | ravi-rasheed.png |
+- Removed the LinkedIn "in" logo and search bar — entire top bar section gone (`TOP = 0`)
+- Shifted name / title·company / city text down 10px per contact for better vertical alignment with photos
 
-### 4. Key Files
+### Right Panel — Popover
+
+The right sidebar is now a **floating popover** that:
+- Shows 6.5 contacts (7th is half-visible, covered by footer)
+- Has a **box shadow** on left, right, and bottom edges via a multi-pass SVG `feGaussianBlur` / `feMerge` filter
+- Has a **1px `#d0d0d0` border** on its right edge
+- Is **clipped** via `clipPath id="sidebarClip"` to `POPOVER_H = 642px`
+- Has a **decorative scrollbar** (507px track, 60px thumb) on the right
+
+**Specific UI refinements:**
+- Hamburger (≡) icon: enlarged (20px wide, 2.5px stroke), gray `#666666`, vertically centered with heading text (bars at y+20/26/32)
+- Blue ↗ arrow removed
+- "Business Development" title x nudged to `SX+44` to clear larger hamburger
+- **Virtual Assistant pill** button: horizontally centered in nav bar; person icon reduced to `r=3`; icon+text block centered within the 184px pill (`icon at px+26`, `text at px+38`)
+- **"prev"** text: indented 33px from left (`SX+33`); vertically aligned with pill center (`navTextY`)
+- **"next"** text: indented 30px from right (`SX+RW-30`, `text-anchor="end"`); same `navTextY`; color `#0a66c2` (blue)
+- **"+" icons**: moved inward from `SX+RW-30` to `SX+RW-42` to mirror photo indent from left
+- **Company names**: `text-decoration="underline"` removed
+- **LeadLeaper footer**: white background rect covers half-visible 7th contact; "Lead" in `#22c55e` (green), "Leaper" in `#0a66c2` (blue) via `<tspan>`
+
+### Popover Positioning
+- `SX = LW - 150 = 670` — popover starts 150px inside the left panel, reducing empty horizontal whitespace
+- `W = 1128` — SVG width = `SX + RW + 8` (8px right shadow bleed)
+
+---
+
+## Layout Constants (current values)
+
+| Constant | Value | Meaning |
+|----------|-------|---------|
+| `W` | 1128 | SVG total width |
+| `TOP` | 0 | No top bar |
+| `LW` | 820 | Left panel width |
+| `RW` | 450 | Popover width |
+| `SX` | 670 | Popover x-origin (LW − 150) |
+| `LRH` | 110 | Left row height |
+| `RRH` | 78 | Sidebar row height |
+| `SHH` | 55 | Sidebar header height |
+| `SNH` | 45 | Sidebar nav height |
+| `SFH` | 35 | Sidebar footer height |
+| `POPOVER_H` | 642 | Popover total height |
+
+---
+
+## Key Files
+
 ```
 claude-code/
-  contact-names.txt                          — fake contact definitions
-  contact-photos/                            — 10 source PNG headshots
-  contacts-base64/                           — 10 base64-encoded TXT files (one per contact)
-  generate-svg.js                            — Node.js SVG generator (run with: node generate-svg.js)
-  generate-svg.py                            — Python equivalent (Python not installed on this machine)
-  linkedin-email-finder-from-search-results.png  — original screenshot (reference)
-  linkedin-email-finder-from-search-results.svg  — OUTPUT: the generated SVG mockup
+  SESSION-STATUS.md                           — this file
+  generate-svg.js                             — Node.js SVG generator (node generate-svg.js)
+  linkedin-email-finder-from-search-results.svg  — OUTPUT (239 KB)
+  contact-names.txt                           — fake contact definitions
+  contacts-base64/                            — 10 base64-encoded TXT files
+  misc/                                       — reference screenshots from LeadLeaper UI
+  save/                                       — backup copies (untracked)
 claude-design/
-  CLAUDE.md                                  — design context/notes
-  downloads/                                 — standalone HTML files
-  images/                                    — LeadLeaper branding assets
+  CLAUDE.md                                   — design context/notes
+  downloads/                                  — standalone HTML files
+  images/                                     — LeadLeaper branding assets
 ```
 
-### 5. Known Issues / Notes
-- **Python not installed** on this machine — use `node generate-svg.js` to regenerate the SVG
-- **Port 3333** — the web-app dev server occupies this port; had to kill it each time to use preview tools
-- **Preview tool** — reads `.claude/launch.json` from the session's working directory (`web-app`), not `website-lef1`. Workaround used: copy SVG temporarily to `web-app/` for serving
-- The `.claude/launch.json` created in `website-lef1/` is ready but won't be picked up until a new Claude Code session is started from that directory
+> **Note:** `contact-photos/` PNGs are deleted locally (9 files show as deleted in `git status`).
+> The base64 data in `contacts-base64/*.txt` is the authoritative source — photos are not needed to regenerate the SVG.
 
-## Git Log (last 3 commits)
+---
+
+## Git Log
+
 ```
+9aab931  chore: add session status file for next-session resume
 d682877  fix: regenerate corrupted base64 for kathryn-chen and jonathan-richards; rebuild SVG
 925d62e  feat: generate SVG mockup with fake contacts and embedded photos
 13c03c8  chore: initial commit — contact assets and design files
 ```
 
+---
+
 ## Possible Next Steps
-- Review the SVG visually and request any layout/styling adjustments
-- Add additional SVG mockups (e.g. LinkedIn profile view, other LeadLeaper panels)
-- Start a new Claude Code session rooted at `website-lef1` so preview tools work natively
+
+- Integrate the SVG into the website HTML (as an `<img>` or inline)
+- Add additional mockup SVGs (e.g. LinkedIn profile view, email-found state with green envelope)
+- Swap the "+" icon on the first contact for a green envelope (matching the LeadLeaper reference screenshot)
+- Adjust the left panel to show fewer contacts if a tighter crop is preferred
